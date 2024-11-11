@@ -29,7 +29,28 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-          cache: 'yarn' # 启用 yarn 缓存
+      
+      # 安装 pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+          run_install: false
+
+      # 获取 pnpm store 目录
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
+
+      # 设置依赖缓存
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
       
       # 安装 Rust
       - name: Install Rust stable
@@ -46,8 +67,7 @@ jobs:
       
       # 安装项目依赖
       - name: Install dependencies
-        run: |
-          yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
       
       # Tauri 构建
       - uses: tauri-apps/tauri-action@v0
