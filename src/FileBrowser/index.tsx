@@ -202,9 +202,9 @@ const handleSelectFilePath = async() => {
 }
 
 const handleTableChange: TableProps<FileInfo>['onChange'] = (
-  pagination,
+  _pagination,
   filters,
-  sorter
+  _sorter
 ) => {
   setSelectedTypeFilters(filters.type as (boolean | null)[]);
 };
