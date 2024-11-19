@@ -7,7 +7,7 @@
     "beforeDevCommand": "pnpm dev",
     "beforeBuildCommand": "pnpm build",
     "devUrl": "http://localhost:1420",
-    "frontendDist": "../dist"
+    "frontendDist": "../dist-isolation"
   },
   "app": {
     "windows": [
@@ -15,8 +15,8 @@
         "title": "demo",
         "width": 800,
         "height": 600,
-        "decorations": false,
-        "fullscreen":true
+        "decorations": true,
+        "fullscreen":false
       }
     ],
     "security": {
